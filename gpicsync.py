@@ -255,6 +255,8 @@ if __name__=="__main__":
      help="Directory containing the pictures. Expl. mypictures")
     parser.add_option("-g", "--gpx",dest="gpx",
      help="Path to the gpx file. Expl. mypicture/tracklog.gpx")
+    parser.add_option("-r", "--range",dest="timerange", default=3600,
+     help="Max. time difference between GPS point and image (in seconds)")
     parser.add_option("-o", "--offset",dest="offset",
      help="A positive or negative number to indicate offset hours\
     to the greenwich meridian (East positive, West negative, 1 for France)")
@@ -269,6 +271,8 @@ if __name__=="__main__":
     parser.add_option("--qr-time-image",dest="qr_time_image",
      help="Image with QR code with time from GPS phone with same camera to \
      calculate offset or 'auto' to detect the image automatically")
+    parser.add_option("-i", "--interpolation",dest="interpolation", action="store_true", default=False,
+     help="Interpolate between data points")
 
     (options,args)=parser.parse_args()
 
@@ -291,17 +295,20 @@ if __name__=="__main__":
     print "\nEngage processing using the following arguments ...\n"
     print "-Directory containing the pictures:",options.dir
     print "-Path to the gpx file:",options.gpx
+    print "-Path to the gpx file:",options.gpx
+    print "-Timerange:", int(options.timerange)
     if options.timezone:
         print "-Time Zone name:",options.timezone
     else:
         print "-UTC Offset (hours):",options.offset
     print "-- Camera local display time:",options.tcam
     print "-- GPS local display time:",options.tgps
+    print "- Interpolation:",options.interpolation
     print "\n"
 
     geo=GpicSync(gpxFile=options.gpx,
-    tcam_l=options.tcam,tgps_l=options.tgps,UTCoffset=int(options.offset),timerange=3600,timezone=options.timezone,
-    qr_time_image=options.qr_time_image)
+    tcam_l=options.tcam,tgps_l=options.tgps,UTCoffset=int(options.offset),timerange=int(options.timerange),timezone=options.timezone,
+    qr_time_image=options.qr_time_image, interpolation=options.interpolation)
 
     files = list(getFileList(options.dir))
 
