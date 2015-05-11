@@ -151,6 +151,7 @@ class GpicSync(object):
             return [_(" : WARNING: DIDN'T GEOCODE, ")+_("no track points found - ")\
                      +self.shotDate+"-"+self.shotTime,"","",self.picWidth,self.picHeight,elevation]
 
+        N = None
         for n,rec in enumerate(self.track):
             delta_datetime=self.pic_datetimeUTC-rec["datetime"]
             rec["tpic_tgps_l"]=delta_datetime.days*86400 +delta_datetime.seconds
@@ -163,7 +164,7 @@ class GpicSync(object):
                 if float(longitude)>0:longRef="E"
                 else: longRef="W"
 
-        if (self.interpolation==True) and (self.track[N]!=0):
+        if (self.interpolation==True) and (N is not None) and  (self.track[N]!=0):
             try:
                 #print ">>> N (nearest trackpoint) in GPX list is index = ",N
                 #print ">>> Trackpoint N Latitude= ", latitude," Longitude= ",longitude
