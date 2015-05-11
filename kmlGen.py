@@ -154,17 +154,17 @@ class KML(object):
         else:
             timeStamp=""
         
-        print "timeStamp=",timeStamp
+        # print "timeStamp=",timeStamp
         w=float(width)
         h=float(height)
                 
         if width>height:
-            print "width > height"
+            # print "width > height"
             width=(600./w)*w
             height=(600./w)*h
         
         if height>width:
-            print "height  > width"
+            # print "height  > width"
             height=(400./h)*h
             width=(400./h)*w
         
@@ -221,11 +221,11 @@ class KML(object):
         w=float(width)
         h=float(height)
         if width>height:
-            print "width > height"
+            # print "width > height"
             width=(200./w)*w
             height=(200./w)*h
         if height>width:
-            print "height  > width"
+            # print "height  > width"
             height=(200./h)*h
             width=(200./h)*w
         width=str(int(width))
