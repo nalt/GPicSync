@@ -234,7 +234,9 @@ def getFileList(dir):
          or fnmatch.fnmatch ( fileName, '*.RAF' )
          or fnmatch.fnmatch ( fileName, '*.raf' )
          or fnmatch.fnmatch ( fileName, '*.MRW' )
-         or fnmatch.fnmatch ( fileName, '*.mrw' )):
+         or fnmatch.fnmatch ( fileName, '*.mrw' )
+         or fnmatch.fnmatch ( fileName, '*.RW2' )
+         or fnmatch.fnmatch ( fileName, '*.rw2' )):
             yield fileName, options.dir+'/'+fileName
 
 if __name__=="__main__":

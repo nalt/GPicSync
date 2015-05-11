@@ -909,6 +909,7 @@ class GUI(wx.Frame):
                 or fnmatch.fnmatch ( fileName, '*.RAW' )\
                 or fnmatch.fnmatch ( fileName, '*.raw' )\
                 or fnmatch.fnmatch ( fileName, '*.rw2' )\
+                or fnmatch.fnmatch ( fileName, '*.RW2' )\
                 or fnmatch.fnmatch ( fileName, '*.ORF' )\
                 or fnmatch.fnmatch ( fileName, '*.orf' )\
                 or fnmatch.fnmatch ( fileName, '*.DNG' )\
