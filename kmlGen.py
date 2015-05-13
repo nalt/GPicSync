@@ -136,7 +136,7 @@ class KML(object):
         
         return pmDescriptionFooter
             
-    def placemark(self,picName="",lat="",long="",ele="",width="800",height="600",
+    def placemark(self,picName="",thumbName=None,useThumb=False,lat="",long="",ele="",width="800",height="600",
                   timeStamp="",elevation=""):
         """
         Creates a placemark tag for the given picture in the kml file.
@@ -165,8 +165,8 @@ class KML(object):
         
         if height>width:
             # print "height  > width"
-            height=(400./h)*h
-            width=(400./h)*w
+            height=(600./h)*h
+            width=(600./h)*w
         
         width=str(int(width))
         height=str(int(height))
@@ -176,8 +176,7 @@ class KML(object):
             lat=mypicture.readLatitude()
             long=mypicture.readLongitude()
         
-        pmHead="\n\n<Placemark>\n<name>"+\
-        os.path.basename(picName)+"</name>\n"
+        pmHead="\n\n<Placemark>\n<name>"+os.path.basename(picName)+"</name>\n"
         
         if self.eleMode==1 or self.eleMode==2:
             eleAdd="\n<altitudeMode>absolute</altitudeMode>"
@@ -186,18 +185,20 @@ class KML(object):
         if self.iconsStyle==1:
             iconLook="<styleUrl>#camera</styleUrl>"
         elif self.iconsStyle==0: 
-            iconLook="<styleUrl>#defaultStyle1</styleUrl><Style><IconStyle><Icon><href>thumbs/thumb_"+\
-            os.path.basename(picName)+"</href></Icon></IconStyle></Style>"\
+            if not thumbName: thumbName = "thumbs/thumb_"+os.path.basename(picName)
+            iconLook="<styleUrl>#defaultStyle1</styleUrl><Style><IconStyle><Icon><href>"+thumbName+\
+            "</href></Icon></IconStyle></Style>"\
 
         #Adding a footer to the description
         pmDescriptionFooter=self.footerPlacemark(picName,type="GE")
         
         pictureName=os.path.basename(picName)
-        if sys.platform == 'win32':
-            pictureName=os.path.basename(picName).lower()
+        #if sys.platform == 'win32':
+        #    pictureName=os.path.basename(picName).lower()
         
+        pic_url = self.url+pictureName if (not useThumb) else thumbName
         pmDescription="<description><![CDATA["+\
-        "<img src='"+self.url+pictureName+"' width='"+width+"' height='"+height+"'/>"+\
+        "<img src='"+pic_url+"' width='"+width+"' height='"+height+"'/>"+\
         pmDescriptionFooter+\
         "]]>\n</description>\n"+iconLook+\
         "\n<Point>"+eleAdd+\
