@@ -104,7 +104,7 @@ class GeoExif(object):
         result=os.popen('%s  -n -GPSLatitude -GPSLatitudeRef \
         -GPSLongitude -GPSLongitudeRef   "%s" ' \
         % (self.exifcmd, self.picPath)).read().split("\n")
-        print result
+        #print result
         if len(result)>=4:
             result[0]=result[0].split(":")[1].strip()
             try:
@@ -123,7 +123,7 @@ class GeoExif(object):
             latlong= result[1]+result[0]+" "+result[3]+result[2]
         else:
             latlong=None
-        print latlong
+        #print latlong
         return latlong
 
     def writeLatitude(self,lat):

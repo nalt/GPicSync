@@ -113,7 +113,6 @@ class GpicSync(object):
         latitude and longitude are strings (+- decimal degrees) to be use
         by other part of the program calling this method.
         """
-        interpolation=True # To use or not an interpolation mode(instead of nearest point)
         pic=GeoExif(picture)
         picDateTimeSize=pic.readDateTimeSize()
         if picDateTimeSize[0]=="nodate":
@@ -256,6 +255,10 @@ if __name__=="__main__":
      help="Directory containing the pictures. Expl. mypictures")
     parser.add_option("-g", "--gpx",dest="gpx",
      help="Path to the gpx file. Expl. mypicture/tracklog.gpx")
+    parser.add_option("-i", "--interpolation",dest="interpolation", action="store_true", default=False,
+     help="Interpolate between data points")
+    parser.add_option("-b", "--backup", dest="backup", action="store_true", default=False,
+      help="Create backup of image file")
     parser.add_option("-r", "--range",dest="timerange", default=3600,
      help="Max. time difference between GPS point and image (in seconds)")
     parser.add_option("-o", "--offset",dest="offset",
@@ -272,8 +275,7 @@ if __name__=="__main__":
     parser.add_option("--qr-time-image",dest="qr_time_image",
      help="Image with QR code with time from GPS phone with same camera to \
      calculate offset or 'auto' to detect the image automatically")
-    parser.add_option("-i", "--interpolation",dest="interpolation", action="store_true", default=False,
-     help="Interpolate between data points")
+
 
     (options,args)=parser.parse_args()
 
@@ -295,7 +297,7 @@ if __name__=="__main__":
     options.gpx=[options.gpx]
     print "\nEngage processing using the following arguments ...\n"
     print "-Directory containing the pictures:",options.dir
-    print "-Path to the gpx file:",options.gpx
+    print "-Backup images:", options.backup
     print "-Path to the gpx file:",options.gpx
     print "-Timerange:", int(options.timerange)
     if options.timezone:
@@ -309,7 +311,7 @@ if __name__=="__main__":
 
     geo=GpicSync(gpxFile=options.gpx,
     tcam_l=options.tcam,tgps_l=options.tgps,UTCoffset=int(options.offset),timerange=int(options.timerange),timezone=options.timezone,
-    qr_time_image=options.qr_time_image, interpolation=options.interpolation)
+    qr_time_image=options.qr_time_image, interpolation=options.interpolation, backup=options.backup)
 
     files = list(getFileList(options.dir))
 
