@@ -28,12 +28,11 @@ python gpicsync-kml.py -d myfoderWithPictures -g myGpxFile.gpx -o UTCoffset
 
 Generates a KML file from a GPX file and geo-tagged images.
 Thumbnails are generated with ImageMagick convert  / dcraw (for raw images).
-Use gpicsync.py for geo-tagging.
+This script does not perform geotagging; use gpicsync.py before.
 For more options type gpicsync.py --help
 """
 
 import gettext,time,datetime
-#import pytz
 
 try: import pytz
 except ImportError: pass
@@ -88,11 +87,6 @@ def getTimeUTC(pic, UTCoffset, timezone=None):
     return pic_datetimeUTC
 
 if __name__=="__main__":
-
-    # Minimal commnand-line version (mainly for tests purposes)
-    # The command-line version doesn't have all the feature of the GUI version,
-    # like the KMLs output
-
     import os,sys,fnmatch
     from optparse import OptionParser
     import gettext
@@ -148,10 +142,6 @@ if __name__=="__main__":
         print "-UTC Offset (hours):",options.offset
     print "\n"
 
-    #geo=GpicSync(gpxFile=options.gpx,
-    #tcam_l=options.tcam,tgps_l=options.tgps,UTCoffset=int(options.offset),timerange=int(options.timerange),timezone=options.timezone,
-    #qr_time_image=options.qr_time_image, interpolation=options.interpolation, backup=options.backup)
-
     myGpx=Gpx(options.gpx)
     track=myGpx.extract()
     print "Track with", len(track), "points, ", track[0]["datetime"] , "to", track[-1]["datetime"], "UTC"
@@ -183,7 +173,6 @@ if __name__=="__main__":
         pic_time_size=pic.readDateTimeSize()
         pic_w,pic_h=int(pic_time_size[2]),int(pic_time_size[3])
         print "(", pic_time, "): ",
-        #result = geo.syncPicture(filePath)
         israw = not (fnmatch.fnmatch (fileName, '*.JPG') or fnmatch.fnmatch (fileName, '*.jpg') or \
             fnmatch.fnmatch (fileName, '*.TIF') or fnmatch.fnmatch (fileName, '*.tif'))
 
